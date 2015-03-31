@@ -4,13 +4,13 @@ public class Game {
 
     private Player[] players;
     private Shoe shoe;
-    private boolean oneOnOne;
-    private int face=0;
+    private int upcard = 0;
+    private Player dealer;
 
-    public Game(Player[] players, Shoe shoe, boolean oneOnOne) {
+    public Game(Player[] players, Shoe shoe) {
         this.shoe = shoe;
         this.players = players;
-        this.oneOnOne = oneOnOne;
+        findDealer();
     }
 
     public void play() {
@@ -18,77 +18,34 @@ public class Game {
             currentPlayer.addCard(shoe.deal());
             currentPlayer.addCard(shoe.deal());
         }
-        face=players[players.length-1].getCards().get(0);
+        upcard = players[players.length - 1].getCards().get(0);
         for (Player currentPlayer : players) {
-            currentPlayer.setFace(face);
+            currentPlayer.setFace(upcard);
             while (currentPlayer.wantCard()) {
                 currentPlayer.addCard(shoe.deal());
             }
         }
-        if (oneOnOne) {
-            pickWinnerOneOnOne();
-        } else {
-            pickWinnerAll();
-        }
+        pickWinner();
         nextRound();
     }
 
-    private void pickWinnerOneOnOne() {
-        Player dealer = null;
-        for (Player currentPlayer : players) {
+    public void pickWinner() {
 
-            if (currentPlayer.isDealer()) {
-                dealer = currentPlayer;
-            }
-        }
-
-        for (Player currentPlayer : players) {
-            if (!currentPlayer.isDealer()) {
-                if (dealer.getCardTotal() >= currentPlayer.getCardTotal()) {
-                    dealer.isWinrar();
-                } else {
-                    currentPlayer.isWinrar();
-                }
-            }
-        }
-    }
-
-    private void pickWinnerAll() {
-        Boolean foundWinner = false;
-        for (Player currentPlayer : players) {
-            if (currentPlayer.getCardTotal() <= 21) {
-                foundWinner = true;
-            }
-        }
-        if (foundWinner) {
-            int high = 0;
+        if (dealer.getCardTotal() == 21) {
+            dealer.isWinrar();
+        } else {
             for (Player currentPlayer : players) {
-                if (currentPlayer.getCardTotal() <= 21 && currentPlayer.getCardTotal() > high) {
-                    high = currentPlayer.getCardTotal();
-                }
-            }
-            int count = 0;
-            for (Player currentPlayer : players) {
-                if (currentPlayer.getCardTotal() == high) {
-                    count++;
-                }
-            }
-            if (count > 1) {
-                for (Player currentPlayer : players) {
-                    if (currentPlayer.getCardTotal() == high && currentPlayer.isDealer()) {
+                if (!currentPlayer.isDealer()) {
+                    if (currentPlayer.getCardTotal() > 21) {
+                        dealer.isWinrar();                        
+                    } else if(dealer.getCardTotal() >21) {
                         currentPlayer.isWinrar();
-                        return;
-                    }
-                }
-                for (Player currentPlayer : players) {
-                    if (currentPlayer.getCardTotal() == high) {
-                        currentPlayer.isWinrar();
-                    }
-                }
-            } else {
-                for (Player currentPlayer : players) {
-                    if (currentPlayer.getCardTotal() == high) {
-                        currentPlayer.isWinrar();
+                    } else {
+                        if (currentPlayer.getCardTotal() > dealer.getCardTotal()){
+                            currentPlayer.isWinrar();
+                        } else {
+                            dealer.isWinrar();
+                        }
                     }
                 }
             }
@@ -98,6 +55,14 @@ public class Game {
     private void nextRound() {
         for (Player currentPlayer : players) {
             currentPlayer.nextRound();
+        }
+    }
+
+    private void findDealer() {
+        for (Player currentplayer : players) {
+            if (currentplayer.isDealer()) {
+                dealer = currentplayer;
+            }
         }
     }
 }

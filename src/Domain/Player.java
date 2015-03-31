@@ -16,18 +16,21 @@ public class Player {
     private boolean isDealer = false;
     private static final SecureRandom randomNumber = new SecureRandom();
 
+    public Player(int ID, int strategy) {
+        this.ID = ID;
+        setStrategy(strategy);
+    }
+
     public Player(int ID, int treshold, int strategy) {
         this.ID = ID;
         this.treshold = treshold;
         setStrategy(strategy);
     }
 
-    public Player(int ID, int treshold, int strategy, boolean isDealer) {
-
-        this.isDealer = isDealer;
+    public Player(int ID, boolean isDealer) {
         this.ID = ID;
-        this.treshold = treshold;
-        setStrategy(strategy);
+        this.isDealer = isDealer;
+        setStrategy(20);
     }
 
     public void setStrategy(int strategy) {
