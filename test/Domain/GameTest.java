@@ -27,7 +27,7 @@ public class GameTest {
         Shoe shoe = new Shoe();
         Deck deck = new Deck();
         shoe.addDeck(deck);
-        this.game = new Game(players, shoe);
+        this.game = new Game(players, shoe, false);
     }
 
     @After

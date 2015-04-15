@@ -1,6 +1,7 @@
 package Domain;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,9 +13,13 @@ public class Start {
             Scanner input = new Scanner(System.in);
             Player[] players;
             int treshold = -100;
+            boolean useChips;
 
             System.out.print("number of games: ");
             int numberOfGames = input.nextInt();
+
+            System.out.print("press 1 to use chips instead of win/lose: ");
+            useChips = input.nextInt() == 1;
 
             System.out.print("number of decks: ");
             int NumberOfDecks = input.nextInt();
@@ -61,19 +66,34 @@ public class Start {
             shoe.shuffle();
 
             for (int i = 1; i <= numberOfGames; i++) {
-                Game game = new Game(players, shoe);
+                Game game = new Game(players, shoe, useChips);
                 game.play();
             }
-            
-            for (Player currentPlayer : players) {
-                if (!(currentPlayer.isDealer())) {
-                    System.out.printf("player %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / numberOfGames) * 100);
-                } else {
-                    System.out.printf("dealer %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / (numberOfGames * numberOfPlayers)) * 100);
-                    try {
-                        System.in.read();
-                    } catch (IOException ex) {
-                        Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
+
+            if (useChips) {
+                for (Player currentPlayer : players) {
+                    if (!(currentPlayer.isDealer())) {
+                        System.out.printf(Locale.ENGLISH,"player %d wins: %d games played %d win ratio: %.2f%% chips: %.1f%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / numberOfGames) * 100, currentPlayer.getChips());
+                    } else {
+                        System.out.printf(Locale.ENGLISH,"dealer %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / (numberOfGames * numberOfPlayers)) * 100);
+                        try {
+                            System.in.read();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+            } else {
+                for (Player currentPlayer : players) {
+                    if (!(currentPlayer.isDealer())) {
+                        System.out.printf(Locale.ENGLISH,"player %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / numberOfGames) * 100);
+                    } else {
+                        System.out.printf(Locale.ENGLISH,"dealer %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / (numberOfGames * numberOfPlayers)) * 100);
+                        try {
+                            System.in.read();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             }
