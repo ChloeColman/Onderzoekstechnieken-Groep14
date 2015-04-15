@@ -18,7 +18,7 @@ public class Shoe {
     }
 
     public int getTrueCount() {
-        return count / numberOfDecks;
+        return (int) (count / (Math.ceil((location + 1) / 52)));
     }
 
     private void updateCount(int card) {
@@ -37,17 +37,18 @@ public class Shoe {
 
     public void shuffle() {
         Collections.shuffle(shoe, randomNumbers);
-        location=-1;
+        location = -1;
     }
 
     public int deal() {
-        if (location < shoe.size()-1) {
+        if (location < shoe.size() - 1) {
             location++;
+            updateCount(shoe.get(location));
             return shoe.get(location);
-
         } else {
             this.shuffle();
             location++;
+            updateCount(shoe.get(location));
             return shoe.get(location);
         }
     }

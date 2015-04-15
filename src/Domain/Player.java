@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Player {
 
-    StrategyInterface strat;
+    public StrategyInterface strat;
     private int ID;
     private List<Integer> cards = new ArrayList<>();
     private int sum;
@@ -47,6 +47,9 @@ public class Player {
                     break;
                 case 4:
                     this.strat = new BasicStrategy();
+                    break;
+                case 5:
+                    this.strat = new LearningStrategy();
                     break;
                 default:
                     this.strat = new DefaultStrategy();

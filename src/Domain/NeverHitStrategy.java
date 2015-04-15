@@ -6,4 +6,7 @@ public class NeverHitStrategy implements StrategyInterface {
     public boolean wantCard (Player player){
         return false;
     }
+    
+    @Override
+    public void eval(Player player){};
 }

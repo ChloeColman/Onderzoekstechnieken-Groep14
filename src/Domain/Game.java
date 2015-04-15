@@ -23,6 +23,9 @@ public class Game {
             currentPlayer.setFace(upcard);
             while (currentPlayer.wantCard()) {
                 currentPlayer.addCard(shoe.deal());
+                if (currentPlayer.strat instanceof LearningStrategy) {
+                    currentPlayer.strat.eval(currentPlayer);
+                }
             }
         }
         pickWinner();
@@ -32,16 +35,18 @@ public class Game {
     public void pickWinner() {
 
         if (dealer.getCardTotal() == 21) {
-            dealer.isWinner();
+            for (int i = 1; i < players.length; i++) {
+                dealer.isWinner();
+            }
         } else {
             for (Player currentPlayer : players) {
                 if (!currentPlayer.isDealer()) {
                     if (currentPlayer.getCardTotal() > 21) {
-                        dealer.isWinner();                        
-                    } else if(dealer.getCardTotal() >21) {
+                        dealer.isWinner();
+                    } else if (dealer.getCardTotal() > 21) {
                         currentPlayer.isWinner();
                     } else {
-                        if (currentPlayer.getCardTotal() > dealer.getCardTotal()){
+                        if (currentPlayer.getCardTotal() > dealer.getCardTotal()) {
                             currentPlayer.isWinner();
                         } else {
                             dealer.isWinner();

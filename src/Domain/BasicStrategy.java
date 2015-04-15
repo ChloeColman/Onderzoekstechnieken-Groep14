@@ -60,4 +60,7 @@ public class BasicStrategy implements StrategyInterface {
             return false;
         }
     }
+    
+    @Override
+    public void eval(Player player){};
 }

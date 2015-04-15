@@ -6,4 +6,6 @@ public class TresholdStrategy implements StrategyInterface {
     public boolean wantCard(Player player){
         return player.getCardTotal() < player.getTreshold();
     }
+    @Override
+    public void eval(Player player){};
 }

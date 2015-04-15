@@ -6,4 +6,7 @@ public class DefaultStrategy implements StrategyInterface {
     public boolean wantCard(Player player) {
         return player.getCardTotal() <= 17;
     }
+    
+    @Override
+    public void eval(Player player){};
 }

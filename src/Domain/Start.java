@@ -23,7 +23,7 @@ public class Start {
             int numberOfPlayers = input.nextInt();
             players = new Player[numberOfPlayers + 1];
 
-            System.out.print("Strategy: \n1) pick treshold \n2) go for blackjack \n3) Never Hit \n4) basic Strategy \n420) default (hit to 17)\n");
+            System.out.print("Strategy: \n1) pick treshold \n2) go for blackjack \n3) Never Hit \n4) basic Strategy \n5) learning Strategy \n420) default (hit to 17)\n");
             int strategy = input.nextInt();
 
             if (strategy == 1) {
@@ -55,7 +55,7 @@ public class Start {
             players[numberOfPlayers] = new Player(numberOfPlayers, true);
             Deck deck = new Deck();
             Shoe shoe = new Shoe();
-            for (int i=0; i<NumberOfDecks; i++){
+            for (int i = 0; i < NumberOfDecks; i++) {
                 shoe.addDeck(deck);
             }
             shoe.shuffle();
@@ -64,14 +64,12 @@ public class Start {
                 Game game = new Game(players, shoe);
                 game.play();
             }
-
+            
             for (Player currentPlayer : players) {
                 if (!(currentPlayer.isDealer())) {
-                    System.out.printf("player %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / numberOfGames)*100);
+                    System.out.printf("player %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / numberOfGames) * 100);
                 } else {
-
-                    System.out.printf("dealer %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(),currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / (numberOfGames*numberOfPlayers))*100);
-
+                    System.out.printf("dealer %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / (numberOfGames * numberOfPlayers)) * 100);
                     try {
                         System.in.read();
                     } catch (IOException ex) {

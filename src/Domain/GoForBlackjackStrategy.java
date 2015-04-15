@@ -6,4 +6,6 @@ public class GoForBlackjackStrategy implements StrategyInterface {
     public boolean wantCard(Player player) {
         return player.getCardTotal() < 21;
     }
+    @Override
+    public void eval(Player player){};
 }
