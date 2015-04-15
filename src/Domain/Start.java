@@ -52,7 +52,7 @@ public class Start {
                 }
             }
 
-            players[numberOfPlayers] = new Player(numberOfPlayers + 1, true);
+            players[numberOfPlayers] = new Player(numberOfPlayers, true);
             Deck deck = new Deck();
             Shoe shoe = new Shoe();
             for (int i=0; i<NumberOfDecks; i++){
@@ -70,7 +70,7 @@ public class Start {
                     System.out.printf("player %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / numberOfGames)*100);
                 } else {
 
-                    System.out.printf("dealer wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / numberOfGames)*100);
+                    System.out.printf("dealer %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(),currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / (numberOfGames*numberOfPlayers))*100);
 
                     try {
                         System.in.read();
@@ -80,6 +80,5 @@ public class Start {
                 }
             }
         }
-
     }
 }

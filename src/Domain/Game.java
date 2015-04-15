@@ -32,19 +32,19 @@ public class Game {
     public void pickWinner() {
 
         if (dealer.getCardTotal() == 21) {
-            dealer.isWinrar();
+            dealer.isWinner();
         } else {
             for (Player currentPlayer : players) {
                 if (!currentPlayer.isDealer()) {
                     if (currentPlayer.getCardTotal() > 21) {
-                        dealer.isWinrar();                        
+                        dealer.isWinner();                        
                     } else if(dealer.getCardTotal() >21) {
-                        currentPlayer.isWinrar();
+                        currentPlayer.isWinner();
                     } else {
                         if (currentPlayer.getCardTotal() > dealer.getCardTotal()){
-                            currentPlayer.isWinrar();
+                            currentPlayer.isWinner();
                         } else {
-                            dealer.isWinrar();
+                            dealer.isWinner();
                         }
                     }
                 }

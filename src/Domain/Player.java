@@ -72,7 +72,11 @@ public class Player {
     }
 
     public boolean wantCard() {
+        if (getCardTotal() < 21){
         return strat.wantCard(this);
+    } else {
+           return false; 
+        }
     }
 
     public void addCard(int card) {
@@ -108,7 +112,7 @@ public class Player {
         return isDealer;
     }
 
-    public void isWinrar() {
+    public void isWinner() {
         wins++;
     }
 
