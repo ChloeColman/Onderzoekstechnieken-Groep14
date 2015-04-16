@@ -86,6 +86,7 @@ public class Start {
             int place;
             try {
                 FileWriter writer = new FileWriter("win-" + dataPoints + "-" + strategy + ".csv");
+                writer.append("#Games played, #games won, \n");
                 for (int dataPoint : data) {
                     place = i * (numberOfGames / dataPoints);
                     i++;
@@ -104,6 +105,7 @@ public class Start {
                     FileWriter writer = new FileWriter("decision tree.csv");
                     LearningStrategy learnStrat = (LearningStrategy) players[0].strat;
                     Set<Integer> keySet = learnStrat.map.keySet();
+                    writer.append("cardTotal, Alpha(true), Alpha(false), \n");
                     for (int key : keySet) {
                         writer.append(Integer.toString(key) + ", "
                                 + Double.toString(learnStrat.map.get(key).get(true)) + ", "
