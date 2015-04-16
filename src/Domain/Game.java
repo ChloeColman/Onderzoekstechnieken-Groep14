@@ -1,5 +1,7 @@
 package Domain;
 
+import java.util.List;
+
 public class Game {
 
     private Player[] players;
@@ -31,6 +33,11 @@ public class Game {
             }
             pickWinnerChips();
             pickWinner();
+            /*   for (Player currentPlayer : players) {
+             System.out.print("Player " + currentPlayer.getID() + " => ");
+             System.out.print(" = " + currentPlayer.getCardTotal() + " || ");
+             }
+             System.out.println("");*/
             nextRound();
         } else {
             for (Player currentPlayer : players) {
@@ -55,7 +62,7 @@ public class Game {
             if (!currentPlayer.isDealer()) {
 
                 if (currentPlayer.getCardTotal() == 21 && currentPlayer.getNumberOfCards() == 2) {
-                    currentPlayer.addChips((double) currentPlayer.getBet() + (double) currentPlayer.getBet()* 1.5);
+                    currentPlayer.addChips((double) currentPlayer.getBet() + (double) currentPlayer.getBet() * 1.5);
 
                 } else if (currentPlayer.getCardTotal() > dealer.getCardTotal()) {
                     currentPlayer.addChips(currentPlayer.getBet() * 2);
@@ -74,25 +81,16 @@ public class Game {
     }
 
     public void pickWinner() {
-        if (dealer.getCardTotal() == 21) {
-            for (int i = 1; i < players.length; i++) {
-                dealer.isWinner();
-            }
-        } else {
-            for (Player currentPlayer : players) {
-                if (!currentPlayer.isDealer()) {
-                    if (currentPlayer.getCardTotal() > 21) {
-                        dealer.isWinner();
-                    } else if (dealer.getCardTotal() > 21) {
-                        currentPlayer.isWinner();
-                    } else {
-                        if (currentPlayer.getCardTotal() > dealer.getCardTotal()) {
-                            currentPlayer.isWinner();
-                        } else {
-                            dealer.isWinner();
-                        }
-                    }
-                }
+        for (Player currentPlayer : players) {
+            if (!currentPlayer.isDealer()) {
+     
+                 if (currentPlayer.getCardTotal() > 21 || dealer.getCardTotal() == 21) {
+                 dealer.isWinner();
+                 } else if (dealer.getCardTotal() > 21 || currentPlayer.getCardTotal() > dealer.getCardTotal()) {
+                 currentPlayer.isWinner();
+                 } else {
+                 dealer.isWinner();
+                 }
             }
         }
     }

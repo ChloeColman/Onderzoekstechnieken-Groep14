@@ -90,22 +90,38 @@ public class Player {
 
     public int getCardTotal() {
         sum = 0;
+        int aantalAzen = 0;
         for (int waarde : cards) {
             if (waarde == 1) {
                 sum += 11;
+                aantalAzen++;
             } else {
                 sum += waarde;
             }
         }
-        if (sum > 21) {
-            sum = 0;
-            for (int waarde : cards) {
-                sum += waarde;
-            }
-            return sum;
-        } else {
-            return sum;
+        while (aantalAzen > 0 && sum > 21) {
+            sum -= 10;
+            aantalAzen--;
         }
+        return sum;
+        /*
+         for (int waarde : cards) {
+         if (waarde == 1) {
+         sum += 11;
+         } else {
+         sum += waarde;
+         }
+         }
+         if (sum > 21) {
+         sum = 0;
+         for (int waarde : cards) {
+         sum += waarde;
+         }
+         return sum;
+         } else {
+         return sum;
+         }
+         */
     }
 
     public void nextRound() {

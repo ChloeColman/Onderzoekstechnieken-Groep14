@@ -12,6 +12,10 @@ public class LearningStrategy implements StrategyInterface {
     double falseAlpha;
     boolean chosen;
 
+    public TreeMap<Integer, TreeMap<Boolean, Double>> getMap() {
+        return map;
+    }
+
     public LearningStrategy() {
         this.map = new TreeMap<>();
     }
