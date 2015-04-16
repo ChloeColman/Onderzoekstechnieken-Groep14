@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +19,9 @@ public class Start {
             Player[] players;
             int treshold = -100;
             boolean useChips;
+
+            System.out.print("Sample Size: ");
+            int dataPoints = input.nextInt();
 
             System.out.print("number of games: ");
             int numberOfGames = input.nextInt();
@@ -68,46 +72,57 @@ public class Start {
                 shoe.addDeck(deck);
             }
             shoe.shuffle();
-            
-            int dataPoints = 100;
+
             List<Integer> data = new ArrayList<>();
             for (int i = 1; i <= numberOfGames; i++) {
                 Game game = new Game(players, shoe, useChips);
                 game.play();
-                if (i%(numberOfGames/dataPoints) == 0){
+                if (i % (numberOfGames / dataPoints) == 0) {
                     data.add(players[0].getWins());
                 }
             }
+
             int i = 0;
-            int place = 0;
+            int place;
             try {
-                FileWriter writer = new FileWriter("file.csv");
-                for (int dataPoint : data){
-                    place = i*(numberOfGames/dataPoints);
+                FileWriter writer = new FileWriter("win-" + dataPoints + "-" + strategy + ".csv");
+                for (int dataPoint : data) {
+                    place = i * (numberOfGames / dataPoints);
                     i++;
-                    writer.append(Integer.toString(place) + ", " + Integer.toString(dataPoint)+ ", \n");
+                    writer.append(Integer.toString(place) + ", " + Integer.toString(dataPoint) + ", \n");
                 }
-                writer.append(Integer.toString(dataPoints)+ ", " + Integer.toString(numberOfGames));
+                writer.append(Integer.toString(dataPoints) + ", " + Integer.toString(numberOfGames));
 
                 writer.flush();
                 writer.close();
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-           
-            
-            String dataString = new String();
-            for (int dataPoint : data){
-                dataString += dataPoint + ", ";
+
+            if (strategy == 5) {
+                try {
+                    FileWriter writer = new FileWriter("decision tree.csv");
+                    LearningStrategy learnStrat = (LearningStrategy) players[0].strat;
+                    Set<Integer> keySet = learnStrat.map.keySet();
+                    for (int key : keySet) {
+                        writer.append(Integer.toString(key) + ", "
+                                + Double.toString(learnStrat.map.get(key).get(true)) + ", "
+                                + Double.toString(learnStrat.map.get(key).get(false)) + ", \n");
+                    }
+
+                    writer.flush();
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            System.out.println(dataString);
-            System.out.println(data.size());
+
             if (useChips) {
                 for (Player currentPlayer : players) {
                     if (!(currentPlayer.isDealer())) {
-                        System.out.printf(Locale.ENGLISH,"player %d wins: %d games played %d win ratio: %.2f%% chips: %.1f%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / numberOfGames) * 100, currentPlayer.getChips());
+                        System.out.printf(Locale.ENGLISH, "player %d wins: %d games played %d win ratio: %.2f%% chips: %.1f%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / numberOfGames) * 100, currentPlayer.getChips());
                     } else {
-                        System.out.printf(Locale.ENGLISH,"dealer %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / (numberOfGames * numberOfPlayers)) * 100);
+                        System.out.printf(Locale.ENGLISH, "dealer %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / (numberOfGames * numberOfPlayers)) * 100);
                         try {
                             System.in.read();
                         } catch (IOException ex) {
@@ -118,9 +133,9 @@ public class Start {
             } else {
                 for (Player currentPlayer : players) {
                     if (!(currentPlayer.isDealer())) {
-                        System.out.printf(Locale.ENGLISH,"player %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / numberOfGames) * 100);
+                        System.out.printf(Locale.ENGLISH, "player %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / numberOfGames) * 100);
                     } else {
-                        System.out.printf(Locale.ENGLISH,"dealer %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / (numberOfGames * numberOfPlayers)) * 100);
+                        System.out.printf(Locale.ENGLISH, "dealer %d wins: %d games played %d win ratio: %.2f%%%n", currentPlayer.getID(), currentPlayer.getWins(), numberOfGames, ((float) currentPlayer.getWins() / (numberOfGames * numberOfPlayers)) * 100);
                         try {
                             System.in.read();
                         } catch (IOException ex) {
@@ -129,7 +144,7 @@ public class Start {
                     }
                 }
             }
-            
+
         }
     }
 }
