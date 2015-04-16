@@ -1,6 +1,9 @@
 package Domain;
 
+import java.util.List;
 import java.io.IOException;
+import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -65,12 +68,40 @@ public class Start {
                 shoe.addDeck(deck);
             }
             shoe.shuffle();
-
+            
+            int dataPoints = 100;
+            List<Integer> data = new ArrayList<>();
             for (int i = 1; i <= numberOfGames; i++) {
                 Game game = new Game(players, shoe, useChips);
                 game.play();
+                if (i%(numberOfGames/dataPoints) == 0){
+                    data.add(players[0].getWins());
+                }
             }
+            int i = 0;
+            int place = 0;
+            try {
+                FileWriter writer = new FileWriter("file.csv");
+                for (int dataPoint : data){
+                    place = i*(numberOfGames/dataPoints);
+                    i++;
+                    writer.append(Integer.toString(place) + ", " + Integer.toString(dataPoint)+ ", \n");
+                }
+                writer.append(Integer.toString(dataPoints)+ ", " + Integer.toString(numberOfGames));
 
+                writer.flush();
+                writer.close();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+           
+            
+            String dataString = new String();
+            for (int dataPoint : data){
+                dataString += dataPoint + ", ";
+            }
+            System.out.println(dataString);
+            System.out.println(data.size());
             if (useChips) {
                 for (Player currentPlayer : players) {
                     if (!(currentPlayer.isDealer())) {
