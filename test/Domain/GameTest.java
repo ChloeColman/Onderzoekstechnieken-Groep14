@@ -20,13 +20,14 @@ public class GameTest {
 
     @Before
     public void setUp() {
-        this.dealer = new Player(1, true);
-        this.gokker = new Player(0, 17, 1);
-        this.players[0] = gokker;
-        this.players[1] = dealer;
         Shoe shoe = new Shoe();
         Deck deck = new Deck();
         shoe.addDeck(deck);
+        this.dealer = new Player(1, true);
+        this.gokker = new Player(0, 17, 1, shoe);
+        this.players[0] = gokker;
+        this.players[1] = dealer;
+
         this.game = new Game(players, shoe, false);
     }
 

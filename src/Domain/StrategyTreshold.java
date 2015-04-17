@@ -1,6 +1,6 @@
 package Domain;
 
-public class TresholdStrategy implements StrategyInterface {
+public class StrategyTreshold implements StrategyInterface {
     
     @Override
     public boolean wantCard(Player player){

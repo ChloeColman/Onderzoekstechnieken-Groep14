@@ -3,7 +3,7 @@ package Domain;
 import java.security.SecureRandom;
 import java.util.TreeMap;
 
-public class LearningStrategy implements StrategyInterface {
+public class StrategyLearning implements StrategyInterface {
 
     public TreeMap<Integer, TreeMap<Boolean, Double>> map;
     private static final SecureRandom randomNumber = new SecureRandom();
@@ -16,7 +16,7 @@ public class LearningStrategy implements StrategyInterface {
         return map;
     }
 
-    public LearningStrategy() {
+    public StrategyLearning() {
         this.map = new TreeMap<>();
     }
 

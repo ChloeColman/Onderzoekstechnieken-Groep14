@@ -1,11 +1,12 @@
 package Domain;
 
-public class GoForBlackjackStrategy implements StrategyInterface {
+public class StrategyDefault implements StrategyInterface {
 
     @Override
     public boolean wantCard(Player player) {
-        return player.getCardTotal() < 21;
+        return player.getCardTotal() < 17;
     }
+    
     @Override
     public void eval(Player player){};
 }

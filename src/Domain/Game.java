@@ -26,7 +26,7 @@ public class Game {
             for (Player currentPlayer : players) {
                 while (currentPlayer.wantCard()) {
                     currentPlayer.addCard(shoe.deal());
-                    if (currentPlayer.strat instanceof LearningStrategy) {
+                    if (currentPlayer.strat instanceof StrategyLearning || currentPlayer.strat instanceof StrategyAdvancedLearning) {
                         currentPlayer.strat.eval(currentPlayer);
                     }
                 }
@@ -47,7 +47,7 @@ public class Game {
             for (Player currentPlayer : players) {
                 while (currentPlayer.wantCard()) {
                     currentPlayer.addCard(shoe.deal());
-                    if (currentPlayer.strat instanceof LearningStrategy) {
+                    if (currentPlayer.strat instanceof StrategyLearning || currentPlayer.strat instanceof StrategyAdvancedLearning) {
                         currentPlayer.strat.eval(currentPlayer);
                     }
                 }
@@ -61,15 +61,21 @@ public class Game {
         for (Player currentPlayer : players) {
             if (!currentPlayer.isDealer()) {
 
-                if (currentPlayer.getCardTotal() == 21 && currentPlayer.getNumberOfCards() == 2) {
-                    currentPlayer.addChips((double) currentPlayer.getBet() + (double) currentPlayer.getBet() * 1.5);
+                if (currentPlayer.getCardTotal() == 21 && currentPlayer.getNumberOfCards() == 2 && !(dealer.getCardTotal() == 21 && dealer.getCards().size() == 2)) {
+                    currentPlayer.addChips((double) currentPlayer.getBet() * 2.5);
 
-                } else if (currentPlayer.getCardTotal() > dealer.getCardTotal()) {
+                } else if (currentPlayer.getCardTotal() > dealer.getCardTotal() && currentPlayer.getCardTotal() <= 21) {
                     currentPlayer.addChips(currentPlayer.getBet() * 2);
 
-                } else if (currentPlayer.getCardTotal() < dealer.getCardTotal()) {
+                } else if (currentPlayer.getCardTotal() < dealer.getCardTotal() && dealer.getCardTotal() <= 21) {
                     currentPlayer.loseChips();
-
+                    
+                } else if (currentPlayer.getCardTotal() > 21) {
+                    currentPlayer.loseChips();
+                    
+                } else if (dealer.getCardTotal() > 21){
+                    currentPlayer.addChips(currentPlayer.getBet()*2);
+                    
                 } else if (dealer.getCardTotal() == currentPlayer.getCardTotal()) {
                     currentPlayer.addChips(currentPlayer.getBet());
 
@@ -83,14 +89,26 @@ public class Game {
     public void pickWinner() {
         for (Player currentPlayer : players) {
             if (!currentPlayer.isDealer()) {
-     
-                 if (currentPlayer.getCardTotal() > 21 || dealer.getCardTotal() == 21) {
-                 dealer.isWinner();
-                 } else if (dealer.getCardTotal() > 21 || currentPlayer.getCardTotal() > dealer.getCardTotal()) {
-                 currentPlayer.isWinner();
-                 } else {
-                 dealer.isWinner();
-                 }
+                if (dealer.getCardTotal() == 21 && dealer.getCards().size() == 2) {
+                    dealer.isWinner();
+                } else if (currentPlayer.getCardTotal() > 21) {
+                    dealer.isWinner();
+                } else if (dealer.getCardTotal() > 21) {
+                    currentPlayer.isWinner();
+                } else if (dealer.getCardTotal() >= currentPlayer.getCardTotal()) {
+                    dealer.isWinner();
+                } else if (dealer.getCardTotal() < currentPlayer.getCardTotal()) {
+                    currentPlayer.isWinner();
+                } else {
+                    throw new UnknownError();
+                }
+//                 if (currentPlayer.getCardTotal() > 21 || dealer.getCardTotal() == 21) {
+//                 dealer.isWinner();
+//                 } else if (dealer.getCardTotal() > 21 || currentPlayer.getCardTotal() > dealer.getCardTotal()) {
+//                 currentPlayer.isWinner();
+//                 } else {
+//                 dealer.isWinner();
+//                 }
             }
         }
     }

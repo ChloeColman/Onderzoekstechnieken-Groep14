@@ -1,6 +1,6 @@
 package Domain;
 
-public class NeverHitStrategy implements StrategyInterface {
+public class StrategyNeverHit implements StrategyInterface {
    
     @Override
     public boolean wantCard (Player player){

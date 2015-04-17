@@ -17,16 +17,21 @@ public class Player {
     private static final SecureRandom randomNumber = new SecureRandom();
     private double chips = 0;
     private double bet;
+    private Shoe shoe;
 
-    public Player(int ID, int strategy) {
+    public Player(int ID, int strategy, Shoe shoe) {
         this.ID = ID;
+        this.shoe = shoe;
         setStrategy(strategy);
+
     }
 
-    public Player(int ID, int treshold, int strategy) {
+    public Player(int ID, int treshold, int strategy, Shoe shoe) {
         this.ID = ID;
         this.treshold = treshold;
+        this.shoe = shoe;
         setStrategy(strategy);
+
     }
 
     public Player(int ID, boolean isDealer) {
@@ -39,26 +44,29 @@ public class Player {
         if (!isDealer()) {
             switch (strategy) {
                 case 1:
-                    this.strat = new TresholdStrategy();
+                    this.strat = new StrategyTreshold();
                     break;
                 case 2:
-                    this.strat = new GoForBlackjackStrategy();
+                    this.strat = new StrategyGoForBlackjack();
                     break;
                 case 3:
-                    this.strat = new NeverHitStrategy();
+                    this.strat = new StrategyNeverHit();
                     break;
                 case 4:
-                    this.strat = new BasicStrategy();
+                    this.strat = new StrategyBasic();
                     break;
                 case 5:
-                    this.strat = new LearningStrategy();
+                    this.strat = new StrategyLearning();
+                    break;
+                case 6:
+                    this.strat = new StrategyAdvancedLearning(shoe);
                     break;
                 default:
-                    this.strat = new DefaultStrategy();
+                    this.strat = new StrategyDefault();
                     break;
             }
         } else {
-            this.strat = new DefaultStrategy();
+            this.strat = new StrategyDefault();
         }
     }
 

@@ -16,6 +16,10 @@ public class Shoe {
     public Shoe() {
         this.shoe = new ArrayList<>();
     }
+    
+    public int getCount(){
+        return runningCount;
+    }
 
     public double getTrueCount() {
         double trueCount = (runningCount / (numberOfDecks - (Math.ceil((location + 1) / 52))) + 1);

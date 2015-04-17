@@ -2,7 +2,7 @@ package Domain;
 
 import java.util.List;
 
-public class BasicStrategy implements StrategyInterface {
+public class StrategyBasic implements StrategyInterface {
 
     static boolean[][] hards = {
         {true, true, true, true, true, true, true, true, true, true, true},
