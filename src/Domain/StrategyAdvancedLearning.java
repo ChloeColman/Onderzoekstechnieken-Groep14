@@ -44,18 +44,18 @@ public class StrategyAdvancedLearning implements StrategyInterface {
     public void eval(Player player) {
         if (player.getCardTotal() <= 21) {
             if (chosen) {
-                trueAlpha = trueAlpha + (Math.log(falseAlpha));
+                trueAlpha = trueAlpha + (Math.log1p(falseAlpha));
                 falseAlpha = 100 - trueAlpha;
             } else {
-                falseAlpha = falseAlpha + (Math.log(trueAlpha));
+                falseAlpha = falseAlpha + (Math.log1p(trueAlpha));
                 trueAlpha = 100 - falseAlpha;
             }
         } else {
             if (chosen) {
-                falseAlpha = falseAlpha + (Math.log(trueAlpha));
+                falseAlpha = falseAlpha + (Math.log1p(trueAlpha));
                 trueAlpha = 100 - falseAlpha;
             } else {
-                trueAlpha = trueAlpha +(Math.log(falseAlpha));
+                trueAlpha = trueAlpha +(Math.log1p(falseAlpha));
                 falseAlpha = 100 - trueAlpha;
             }
         }
